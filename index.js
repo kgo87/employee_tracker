@@ -21,6 +21,8 @@ function askForAction() {
                 "VIEW_ROLES",
                 "VIEW_EMPLOYEES",
                 "CREATE_ROLE",
+                "CREATE_DEPARTMENT",
+                "CREATE_EMPLOYEE",
                 "QUIT"
             ]
         })
@@ -37,6 +39,12 @@ function askForAction() {
                     return;
                 case "CREATE_ROLE":
                     createRole();
+                    return;
+                case "CREATE_DEPARTMENT":
+                    createDepartment();
+                    return;
+                case "CREATE_EMPLOYEE":
+                    createEmployee();
                     return;
                 default:
                     connection.end();
@@ -96,7 +104,6 @@ function createRole(){
         ]).then((response) => {
             console.log(response);
             const title = response.title;
-            console.log(title);
             const newROle = (response.title+", "+ Number(response.salary)+ ", " + Number(response.department_id));
             console.log(newROle);
             const roleNew = {
@@ -106,10 +113,33 @@ function createRole(){
             }
             console.log(roleNew);
             db.insertRoles(roleNew);
+            askForAction();
 
     })
-    // askForAction();
 
 
 
 })}
+
+
+function createDepartment(){
+    inquirer. prompt([
+        {
+            type: 'input',
+            message: 'Which department would you like to add?',
+            name: 'dep_name',
+        }
+        ]).then((response) => {
+            console.log(response);
+            const depNew = {
+                name: response.dep_name
+            }
+            console.log(depNew);
+            db.insertDepartments(depNew);
+            askForAction();
+
+    })
+
+
+
+}

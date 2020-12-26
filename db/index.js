@@ -12,8 +12,17 @@ module.exports = {
 
     insertRoles(data) {
         return connection.query("INSERT INTO role SET ?", data)
-        // Day 3, unit 12 - check how insert is done
+    },
+
+    insertDepartments(data) {
+        return connection.query("INSERT INTO department SET ?", data)
+    },
+
+    insertEmployees(data) {
+        return connection.query("INSERT INTO employee SET ?", data)
     }
+
+
 }
 
 
