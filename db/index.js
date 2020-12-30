@@ -20,6 +20,13 @@ module.exports = {
 
     insertEmployees(data) {
         return connection.query("INSERT INTO employee SET ?", data)
+    },
+
+    insertEmployee_Roles(data) {
+        return connection.query("SELECT role.id, role.title, employee.role_id, employee.id, employee.first_name, employee.last_name, employee.manager_id, employee.first_name, employee.last_name FROM employee INNER JOIN role ON role.id=employee.role_id", data)
+    },
+    updateRole(data) {
+        return connection.query("UPDATE employee SET ? WHERE ?", data)
     }
 
 

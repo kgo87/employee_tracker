@@ -23,6 +23,7 @@ function askForAction() {
                 "CREATE_ROLE",
                 "CREATE_DEPARTMENT",
                 "CREATE_EMPLOYEE",
+                "UPDATE_ROLE",
                 "QUIT"
             ]
         })
@@ -45,6 +46,9 @@ function askForAction() {
                     return;
                 case "CREATE_EMPLOYEE":
                     createEmployee();
+                    return;
+                case "UPDATE_ROLE":
+                    updateEmpRole();
                     return;
                 default:
                     connection.end();
@@ -116,9 +120,6 @@ function createRole(){
             askForAction();
 
     })
-
-
-
 })}
 
 
@@ -139,7 +140,103 @@ function createDepartment(){
             askForAction();
 
     })
-
-
-
 }
+
+function createEmployee(){
+    db.insertEmployee_Roles().then((roles_emp) => {
+        // console.table(roles)
+        inquirer. prompt([
+            {
+                message: "Choose role",
+                type: "list",
+                name: "role_id",
+                choices: roles_emp.map((role) => ({
+                    value:role.role_id,
+                    name: role.title
+
+                })),
+                
+            },
+            {
+                message: "Choose manager",
+                type: "list",
+                name: "manager_id",
+                choices: roles_emp.map((role) => ({
+                    value:role.role_id,
+                    name: role.last_name
+
+                })),   
+            },
+
+            {
+                type: 'input',
+                message: 'What is your first name?',
+                name: 'first_name',
+            },
+            {
+                type: 'input',
+                message: 'What is your last name?',
+                name: 'last_name',
+            }
+        ]).then((response) => {
+            console.log(response);
+            const empNew = {
+                first_name: response.first_name,
+                last_name: response.last_name,
+                role_id: Number(response.role_id), 
+                manager_id: Number(response.manager_id)
+            }
+            console.log(empNew);
+
+            db.insertEmployees(empNew);
+            askForAction();
+
+    })
+})}
+
+function updateEmpRole() {
+    db.insertEmployee_Roles().then((roles_emp) => {
+        // console.table(roles)
+        inquirer. prompt([
+            {
+                message: "What employee would you like to upodate",
+                type: "list",
+                name: "emp_id",
+                choices: roles_emp.map((role) => ({
+                    value:role.id,
+                    name: role.last_name
+
+                })),
+                
+            },
+            {
+                message: "What new role would you like to assign",
+                type: "list",
+                name: "role_id",
+                choices: roles_emp.map((role) => ({
+                    value:role.role_id,
+                    name: role.title
+
+                })),   
+            },
+
+
+        ]).then((response) => {
+            console.log(response);
+            updRole = [
+                {
+                  role_id: response.role_id
+                },
+                {
+                  id: response.emp_id
+                }
+              ]
+            console.log(updRole);
+
+            db.updateRole(updRole);
+            askForAction();
+
+    })
+})}
+
+
