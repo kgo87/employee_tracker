@@ -32,7 +32,16 @@ module.exports = {
         return connection.query("UPDATE employee SET ? WHERE ?", data)
     },
     viewByManager(data){
-
+        return connection.query("SELECT * FROM employee WHERE ?", data)
+    },
+    removeDepartment(data) {
+        return connection.query("DELETE FROM department WHERE ?", data)
+    },
+    removeRole(data) {
+        return connection.query("DELETE FROM role WHERE ?", data)
+    },
+    removeEmployee(data) {
+        return connection.query("DELETE FROM employee WHERE ?", data)
     }
 
 

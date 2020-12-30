@@ -25,6 +25,10 @@ function askForAction() {
                 "CREATE_EMPLOYEE",
                 "UPDATE_ROLE",
                 "UPDATE_MANAGER",
+                "VIEW_BY_MANAGER",
+                "DELETE_DEPARTMENT",
+                "DELETE_ROLE",
+                "DELETE_EMPLOYEE",
                 "QUIT"
             ]
         })
@@ -53,6 +57,18 @@ function askForAction() {
                     return;
                 case "UPDATE_MANAGER":
                     updateManager();
+                    return;
+                case "VIEW_BY_MANAGER":
+                    viewManager();
+                    return;
+                case "DELETE_DEPARTMENT":
+                    deleteDepartment();
+                    return;
+                case "DELETE_ROLE":
+                    deleteRole();
+                    return;
+                case "DELETE_EMPLOYEE":
+                    deleteEmployee();
                     return;
                 default:
                     connection.end();
@@ -286,6 +302,115 @@ function updateManager() {
             askForAction();
 
     })
+})}
+
+
+function viewManager() {
+    db.getEmployees().then((roles_emp) => {
+        inquirer. prompt([
+            {
+                message: "Employees of which manager would you like to view",
+                type: "list",
+                name: "manager_id",
+                choices: roles_emp.map((emp) => ({
+                    value:emp.id,
+                    name: emp.last_name +  ", "+ emp.first_name
+
+                })),
+                
+            },
+
+
+        ]).then((response) => {
+            console.log(response);
+            const managerID = {
+                manager_id: Number(response.manager_id)
+            }
+
+            console.log(managerID);
+
+            db.viewByManager(managerID).then((results) => {
+                console.table(results)
+                askForAction();
+            });
+
+    })
+})}
+
+
+function deleteDepartment(){
+    db.getDepartments().then((departments) => {
+        inquirer. prompt([
+            {
+                message: 'Which department would you like to delete?',
+                type: "list",
+                name: "dep_id",
+                choices: departments.map((dep) => ({
+                    value:dep.id,
+                    name: dep.name
+
+                })),
+            }
+            ]).then((response) => {
+                console.log(response);
+                const dep = {
+                    id: Number(response.dep_id)
+                }
+                console.log(dep);
+                db.removeDepartment(dep);
+                askForAction();
+
+        })
+})}
+
+function deleteRole(){
+    db.getRoles().then((roles) => {
+        inquirer. prompt([
+            {
+                message: 'Which role would you like to delete?',
+                type: "list",
+                name: "role_id",
+                choices: roles.map((role) => ({
+                    value:role.id,
+                    name: role.title
+
+                })),
+            }
+            ]).then((response) => {
+                console.log(response);
+                const role = {
+                    id: Number(response.role_id)
+                }
+                console.log(role);
+                db.removeRole(role);
+                askForAction();
+
+        })
+})}
+
+function deleteEmployee(){
+    db.getEmployees().then((employees) => {
+        inquirer. prompt([
+            {
+                message: 'Which employee would you like to delete?',
+                type: "list",
+                name: "emp_id",
+                choices: employees.map((emp) => ({
+                    value:emp.id,
+                    name: emp.last_name + ", " + emp.first_name
+
+                })),
+            }
+            ]).then((response) => {
+                console.log(response);
+                const employee = {
+                    id: Number(response.emp_id)
+                }
+                console.log(employee);
+                db.removeEmployee(employee);
+                askForAction();
+
+        })
 })}
 
 
