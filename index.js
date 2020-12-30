@@ -24,6 +24,7 @@ function askForAction() {
                 "CREATE_DEPARTMENT",
                 "CREATE_EMPLOYEE",
                 "UPDATE_ROLE",
+                "UPDATE_MANAGER",
                 "QUIT"
             ]
         })
@@ -49,6 +50,9 @@ function askForAction() {
                     return;
                 case "UPDATE_ROLE":
                     updateEmpRole();
+                    return;
+                case "UPDATE_MANAGER":
+                    updateManager();
                     return;
                 default:
                     connection.end();
@@ -234,6 +238,51 @@ function updateEmpRole() {
             console.log(updRole);
 
             db.updateRole(updRole);
+            askForAction();
+
+    })
+})}
+
+function updateManager() {
+    db.insertEmployee_Roles().then((roles_emp) => {
+        // console.table(roles)
+        inquirer. prompt([
+            {
+                message: "What employee would you like to upodate",
+                type: "list",
+                name: "emp_id",
+                choices: roles_emp.map((role) => ({
+                    value:role.id,
+                    name: role.last_name +  ", "+ role.first_name
+
+                })),
+                
+            },
+            {
+                message: "Select new manager",
+                type: "list",
+                name: "manager_id",
+                choices: roles_emp.map((role) => ({
+                    value:role.id,
+                    name: role.last_name + ", "+ role.first_name
+
+                })),   
+            },
+
+
+        ]).then((response) => {
+            console.log(response);
+            updManager = [
+                {
+                  manager_id: Number(response.manager_id)
+                },
+                {
+                  id: Number(response.emp_id)
+                }
+              ]
+            console.log(updManager);
+
+            db.updateEmpManager(updManager);
             askForAction();
 
     })

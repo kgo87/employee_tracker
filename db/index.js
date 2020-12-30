@@ -27,6 +27,12 @@ module.exports = {
     },
     updateRole(data) {
         return connection.query("UPDATE employee SET ? WHERE ?", data)
+    },
+    updateEmpManager(data) {
+        return connection.query("UPDATE employee SET ? WHERE ?", data)
+    },
+    viewByManager(data){
+
     }
 
 
