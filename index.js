@@ -29,6 +29,7 @@ function askForAction() {
                 "DELETE_DEPARTMENT",
                 "DELETE_ROLE",
                 "DELETE_EMPLOYEE",
+                "VIEW_BUDGET",
                 "QUIT"
             ]
         })
@@ -69,6 +70,9 @@ function askForAction() {
                     return;
                 case "DELETE_EMPLOYEE":
                     deleteEmployee();
+                    return;
+                case "VIEW_BUDGET":
+                    viewDepBudget();
                     return;
                 default:
                     connection.end();
@@ -412,5 +416,44 @@ function deleteEmployee(){
 
         })
 })}
+
+
+
+function viewDepBudget(){
+    db.getDepartments().then((departments) => {
+        inquirer. prompt([
+            {
+                message: 'Budget of which department would you like to view?',
+                type: "list",
+                name: "department_id",
+                choices: departments.map((dep) => ({
+                    value:dep.id,
+                    name: dep.name
+
+                })),
+            }
+            ]).then((response) => {
+                console.log(response);
+                const dep = {
+                    dep_id: Number(response.department_id)
+                }
+                console.log(dep);
+                db.viewDeps_Employee_Roles(dep)
+                .then((results => {
+                    console.table( results );
+                    askForAction();
+                })) ;
+                
+
+        })
+})}
+
+
+// function viewDepBudget(){
+//     db.viewDeps_Employee_Roles().then((results => {
+//         console.table( results );
+//         askForAction();
+//     })) ;
+// }
 
 

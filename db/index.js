@@ -42,7 +42,16 @@ module.exports = {
     },
     removeEmployee(data) {
         return connection.query("DELETE FROM employee WHERE ?", data)
+    },
+    // viewDeps_Employee_Roles() {
+    //     return connection.query("SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', '')); SELECT role.department_id, department.name, role.id AS roleID, role.salary, employee.role_id, SUM(role.salary) as total_salary FROM employee JOIN role ON role.id = employee.role_id JOIN department ON department.id = role.department_id GROUP BY role.department_id")
+    // },
+    viewDeps_Employee_Roles(data) {
+        return connection.query("SELECT SUM(salary) as dep_salary from overall WHERE ?", data)
     }
+    // viewDeps_Employee_Roles(data) {
+    //     return connection.query("SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', '')); SELECT role.department_id, department.name, role.id AS roleID, role.salary, employee.role_id, SUM(role.salary) as total_salary FROM employee JOIN role ON role.id = employee.role_id JOIN department ON department.id = role.department_id WHERE role.department_id = ? GROUP BY role.department_id;", data)
+    // }
 
 
 }
