@@ -5,9 +5,6 @@ const index = require("./db/index");
 const db = require("./db");
 const { createPromptModule } = require("inquirer");
 
-// db.getDepartments().then((results) => {
-//     console.table(results)
-// })
 
 
 function askForAction() {
@@ -130,10 +127,6 @@ function createRole(){
                 name: 'salary',
             }
         ]).then((response) => {
-            console.log(response);
-            const title = response.title;
-            const newROle = (response.title+", "+ Number(response.salary)+ ", " + Number(response.department_id));
-            console.log(newROle);
             const roleNew = {
                 title: response.title,
                 salary: Number(response.salary),
@@ -168,7 +161,6 @@ function createDepartment(){
 
 function createEmployee(){
     db.insertEmployee_Roles().then((roles_emp) => {
-        // console.table(roles)
         inquirer. prompt([
             {
                 message: "Choose role",
@@ -203,7 +195,6 @@ function createEmployee(){
                 name: 'last_name',
             }
         ]).then((response) => {
-            console.log(response);
             const empNew = {
                 first_name: response.first_name,
                 last_name: response.last_name,
@@ -211,7 +202,6 @@ function createEmployee(){
                 manager_id: Number(response.manager_id)
             }
             console.log(empNew);
-
             db.insertEmployees(empNew);
             askForAction();
 
@@ -220,7 +210,6 @@ function createEmployee(){
 
 function updateEmpRole() {
     db.insertEmployee_Roles().then((roles_emp) => {
-        // console.table(roles)
         inquirer. prompt([
             {
                 message: "What employee would you like to upodate",
@@ -256,7 +245,6 @@ function updateEmpRole() {
                 }
               ]
             console.log(updRole);
-
             db.updateRole(updRole);
             askForAction();
 
@@ -265,7 +253,6 @@ function updateEmpRole() {
 
 function updateManager() {
     db.insertEmployee_Roles().then((roles_emp) => {
-        // console.table(roles)
         inquirer. prompt([
             {
                 message: "What employee would you like to upodate",
@@ -291,7 +278,6 @@ function updateManager() {
 
 
         ]).then((response) => {
-            console.log(response);
             updManager = [
                 {
                   manager_id: Number(response.manager_id)
@@ -326,7 +312,6 @@ function viewManager() {
 
 
         ]).then((response) => {
-            console.log(response);
             const managerID = {
                 manager_id: Number(response.manager_id)
             }
@@ -356,7 +341,6 @@ function deleteDepartment(){
                 })),
             }
             ]).then((response) => {
-                console.log(response);
                 const dep = {
                     id: Number(response.dep_id)
                 }
@@ -381,7 +365,6 @@ function deleteRole(){
                 })),
             }
             ]).then((response) => {
-                console.log(response);
                 const role = {
                     id: Number(response.role_id)
                 }
@@ -406,7 +389,6 @@ function deleteEmployee(){
                 })),
             }
             ]).then((response) => {
-                console.log(response);
                 const employee = {
                     id: Number(response.emp_id)
                 }
@@ -449,11 +431,5 @@ function viewDepBudget(){
 })}
 
 
-// function viewDepBudget(){
-//     db.viewDeps_Employee_Roles().then((results => {
-//         console.table( results );
-//         askForAction();
-//     })) ;
-// }
 
 

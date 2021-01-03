@@ -1,5 +1,5 @@
 const connection = require("./connection");
-module.exports = {
+const sqlQueries = {
     getDepartments() {
         return connection.query("SELECT * FROM department")
     },
@@ -43,17 +43,18 @@ module.exports = {
     removeEmployee(data) {
         return connection.query("DELETE FROM employee WHERE ?", data)
     },
-    // viewDeps_Employee_Roles() {
-    //     return connection.query("SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', '')); SELECT role.department_id, department.name, role.id AS roleID, role.salary, employee.role_id, SUM(role.salary) as total_salary FROM employee JOIN role ON role.id = employee.role_id JOIN department ON department.id = role.department_id GROUP BY role.department_id")
-    // },
+    // The query to view the budget was performed on the combined table, which was developed using the following query:
+    // "CREATE TABLE overall AS 
+    // SELECT role.id, role.title, role.salary, employee.role_id, employee.id as emp_id, 
+    // employee.first_name, employee.last_name, department.id as dep_id, department.name FROM employee 
+    // JOIN role ON role.id=employee.role_id JOIN department on department.id = role.department_id;""  
+
     viewDeps_Employee_Roles(data) {
         return connection.query("SELECT SUM(salary) as dep_salary from overall WHERE ?", data)
     }
-    // viewDeps_Employee_Roles(data) {
-    //     return connection.query("SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', '')); SELECT role.department_id, department.name, role.id AS roleID, role.salary, employee.role_id, SUM(role.salary) as total_salary FROM employee JOIN role ON role.id = employee.role_id JOIN department ON department.id = role.department_id WHERE role.department_id = ? GROUP BY role.department_id;", data)
-    // }
-
 
 }
+
+module.exports = sqlQueries;
 
 
