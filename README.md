@@ -25,7 +25,11 @@ Task is architect and build a solution for managing a company's employees using 
 The database schema contains three tables: departments (stores department names and ids), roles (stores role ids, titles, salaries and department ids), and employees (stores ids, first and last name, role and manager's ids). The departments and roles tables are connected via the department id, while roles and employees tables are connected via role ids. The application asks the user for the sepcific action, such as to view, create, delete departments, roles, employees, update roles or managers, view budget or exit the application. Depending on the user's selection, they are either presented with the requested information or prompted for an (additional) input. MySQL NPM package  is used to connect to MySQL database and perform queries. InquirerJs NPM package is used to interact with the user via the command-line. Package console.table is used to print MySQL rows to the console.  
 
 ## 3. Link to screen recording<a name="link"></a>
-Screen recording capturing how the application is working is generated: ![](./media/screen_video.gif)
+Several screen recording capturing how the application is working are provided below.
+Viewing the departments, roles, employees, department budget, employees by manager: ![](./media/view.gif)
+Creating the departments and roles: ![](./media/create.gif)
+Deleting the departments and roles: ![](./media/delete.gif)
+Updating roles and managers: ![](./media/update.gif)
 
 ## 4. Structure<a name="structure"></a>
 The files containing the connection to MySQL database and SQL queries are separated from the main application file, and are located in a *db* folder. In addition to the mySQL database parameters, *connection.js* also contains *util.promisify* that allows to convert a regular function into an async function, i.e. a function that returns a promise. It is used to avoid messy promise chains and introduce a cleaner way to do asynchronous programming. 
