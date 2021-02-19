@@ -6,6 +6,7 @@
 3. [ Link to screen recording ](#link)
 4. [ Structure ](#structure)
 5. [ Finished product ](#final)
+6. [ Contact details ](#contact)
 
 
 ## 1. Description<a name="desc"></a>
@@ -55,3 +56,8 @@ Here is the output of the program that shows the employees by manager:
 
 Here is the output of the program that shows the total utilized budget of a department:
 ![Screenshot](./media/view_sal.png)
+
+## 6. Contact details<a name="contact"></a>
+If you have any questions, contact me via email: 
+
+<a href="mailto:kathy.gomozova@gmail.com?"><img src="https://img.shields.io/badge/gmail-%23DD0031.svg?&style=for-the-badge&logo=gmail&logoColor=white"/></a>
